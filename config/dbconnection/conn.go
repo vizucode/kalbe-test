@@ -7,9 +7,10 @@ import (
 	"net/http"
 	"time"
 
+	"api.kalbe.crm/apps/models"
 	"api.kalbe.crm/config/logger"
 	"api.kalbe.crm/config/viper"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -22,9 +23,9 @@ func DbConn() (db *gorm.DB) {
 	dbname := v.GetString("DB_NAME")
 	dbport := v.GetInt("DB_PORT")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbuser, dbpassword, dbhost, dbport, dbname)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=Asia/Jakarta", dbhost, dbuser, dbpassword, dbname, dbport)
 
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		SkipDefaultTransaction: true,
 		PrepareStmt:            true,
 	})
@@ -43,5 +44,13 @@ func DbConn() (db *gorm.DB) {
 	sqlDb.SetMaxOpenConns(100)
 	sqlDb.SetConnMaxLifetime(time.Minute)
 
-	return
+	db.AutoMigrate(
+		models.Departement{},
+		models.Location{},
+		models.Position{},
+		models.Employee{},
+		models.Attandance{},
+	)
+
+	return db
 }

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"api.kalbe.crm/config/dbconnection"
 	errorHandler "api.kalbe.crm/config/error_handler"
 	"api.kalbe.crm/config/hisentry"
 	"api.kalbe.crm/config/logger"
@@ -24,6 +25,8 @@ func main() {
 	if strings.EqualFold(env.GetString("APP_ENV"), "production") {
 		hisentry.NewHisentry().Init()
 	}
+
+	dbconnection.DbConn()
 
 	// validator := validator.New()
 

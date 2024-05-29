@@ -2,16 +2,12 @@ package models
 
 import "gorm.io/gorm"
 
-type Employee struct {
+type Position struct {
 	gorm.Model
-	EmployeeCode  string
-	Password      string
 	DepartementId int
-	PositionId    int
-	Superior      int
+	PositionName  string
 	CreatedBy     string
 	UpdatedBy     string
 
 	Departement Departement
-	Position    Position
 }
