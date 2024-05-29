@@ -1,4 +1,4 @@
-package mysqldatabase
+package psqldatabase
 
 import "gorm.io/gorm"
 

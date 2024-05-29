@@ -5,11 +5,15 @@ import (
 	"net/http"
 	"strings"
 
+	psqldatabase "api.kalbe.crm/apps/repositories/psql_database"
+	"api.kalbe.crm/apps/router/rest"
+	"api.kalbe.crm/apps/service/auth"
 	"api.kalbe.crm/config/dbconnection"
 	errorHandler "api.kalbe.crm/config/error_handler"
 	"api.kalbe.crm/config/hisentry"
 	"api.kalbe.crm/config/logger"
 	"api.kalbe.crm/config/viper"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
@@ -26,13 +30,14 @@ func main() {
 		hisentry.NewHisentry().Init()
 	}
 
-	dbconnection.DbConn()
+	db := dbconnection.DbConn()
+	psql := psqldatabase.NewPsql(db)
 
-	// validator := validator.New()
+	validator := validator.New()
 
-	// rest.NewRest(
-
-	// ).RegisterRoute(app)
+	rest.NewRest(
+		auth.NewAuth(psql, validator),
+	).RegisterRoute(app)
 
 	err := app.Listen(env.GetString("APP_PORT"))
 	if err != nil {
