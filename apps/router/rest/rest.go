@@ -30,5 +30,7 @@ func (rest *rest) ResponseJson(ctx *fiber.Ctx, data interface{}, message string,
 }
 
 func (rest *rest) RegisterRoute(c *fiber.App) {
-	// v1 := c.Group("/api/v1")
+	v1 := c.Group("/api/v1")
+
+	v1.Post("/auth/signin", rest.SignIn)
 }

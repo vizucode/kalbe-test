@@ -11,14 +11,14 @@ func (s *rest) SignIn(c *fiber.Ctx) error {
 
 	ctx := c.Context()
 
-	payload := &domain.AuthRequest{}
-	err := c.BodyParser(payload)
+	payload := domain.AuthRequest{}
+	err := c.BodyParser(&payload)
 	if err != nil {
 		log.Println(err)
 		return fiber.NewError(fiber.ErrBadRequest.Code, fiber.ErrBadRequest.Message)
 	}
 
-	token, err := s.auth.SignIn(ctx, domain.AuthRequest{})
+	token, err := s.auth.SignIn(ctx, payload)
 	if err != nil {
 		return err
 	}

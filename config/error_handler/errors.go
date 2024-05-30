@@ -3,6 +3,7 @@ package errorhandler
 import (
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -18,13 +19,17 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 		errsMap := make(map[string]interface{})
 		// Populate the map with validation errors
 		for _, val := range validationErr {
-			errsMap[val.Field()] = "Terdapat kesalahan " + val.Tag() + " di " + val.Field()
+			switch strings.ToLower(val.Tag()) {
+			case "required":
+				errsMap[strings.ToLower(val.Field())] = "required field " + val.Field()
+			}
 		}
 
 		// Return a response with bad request status and the validation error map
 		return ctx.Status(http.StatusBadRequest).JSON(map[string]interface{}{
 			"data":    nil,
-			"message": errsMap,
+			"message": "validation error",
+			"errors":  errsMap,
 			"success": false,
 		})
 	}

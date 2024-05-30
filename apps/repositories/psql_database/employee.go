@@ -2,15 +2,21 @@ package psqldatabase
 
 import (
 	"context"
+	"errors"
 	"log"
 	"net/http"
 
 	"api.kalbe.crm/apps/models"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func (psql *psql) GetAllEmployee(ctx context.Context) (resp []models.Employee, err error) {
 	if tx := psql.db.Model(&models.Employee{}).Find(&resp); tx.Error != nil {
+		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+			return resp, fiber.NewError(http.StatusNotFound, fiber.ErrNotFound.Message)
+		}
+		log.Println(tx.Error)
 		return resp, fiber.NewError(http.StatusInternalServerError, tx.Error.Error())
 	}
 
@@ -18,6 +24,9 @@ func (psql *psql) GetAllEmployee(ctx context.Context) (resp []models.Employee, e
 }
 func (psql *psql) GetEmployee(ctx context.Context, employeeCode string) (resp models.Employee, err error) {
 	if tx := psql.db.Model(&models.Employee{}).Where("employee_code = ?", employeeCode).First(&resp); tx.Error != nil {
+		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+			return resp, fiber.NewError(http.StatusNotFound, fiber.ErrNotFound.Message)
+		}
 		log.Println(tx.Error)
 		return resp, fiber.NewError(http.StatusInternalServerError, fiber.ErrInternalServerError.Message)
 	}
