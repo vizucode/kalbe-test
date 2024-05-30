@@ -28,11 +28,11 @@ type IDatabaseRepositories interface {
 	/*
 		Location
 	*/
-	// GetAllLocation(ctx context.Context) (resp []models.Location, err error)
-	// GetLocation(ctx context.Context, id int) (resp models.Location, err error)
-	// CreateLocation(ctx context.Context, payload models.Location) (err error)
-	// UpdateLocation(ctx context.Context, selectedString []string, payload models.Location) (err error)
-	// DeleteLocation(ctx context.Context, id int) (err error)
+	GetAllLocation(ctx context.Context) (resp []models.Location, err error)
+	GetLocation(ctx context.Context, id int) (resp models.Location, err error)
+	CreateLocation(ctx context.Context, payload models.Location) (err error)
+	UpdateLocation(ctx context.Context, selectedString []string, payload models.Location) (err error)
+	DeleteLocation(ctx context.Context, id int) (err error)
 
 	/*
 		Employee

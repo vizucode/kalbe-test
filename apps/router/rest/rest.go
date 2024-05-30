@@ -13,17 +13,20 @@ type rest struct {
 	auth        service.IAuth
 	departement service.IDepartement
 	position    service.IPosition
+	location    service.ILocation
 }
 
 func NewRest(
 	auth service.IAuth,
 	departement service.IDepartement,
 	position service.IPosition,
+	location service.ILocation,
 ) *rest {
 	return &rest{
 		auth:        auth,
 		departement: departement,
 		position:    position,
+		location:    location,
 	}
 }
 
@@ -57,4 +60,13 @@ func (rest *rest) RegisterRoute(c *fiber.App) {
 	v1.Post("/position", rest.CreatePosition)
 	v1.Put("/position/:id", rest.UpdatePosition)
 	v1.Delete("/position/:id", rest.DeletePosition)
+
+	/*
+		Location
+	*/
+	v1.Get("/locations", rest.GetListLocation)
+	v1.Get("/location/:id", rest.GetRowLocation)
+	v1.Post("/location", rest.CreateLocation)
+	v1.Put("/location/:id", rest.UpdateLocation)
+	v1.Delete("/location/:id", rest.DeleteLocation)
 }

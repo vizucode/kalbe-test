@@ -25,3 +25,11 @@ type IPosition interface {
 	UpdatePosition(ctx context.Context, payload domain.Position) (err error)
 	DeletePosition(ctx context.Context, id int) (err error)
 }
+
+type ILocation interface {
+	GetAllLocation(ctx context.Context) (resp []domain.Location, err error)
+	GetLocation(ctx context.Context, id int) (resp domain.Location, err error)
+	CreateLocation(ctx context.Context, payload domain.Location) (err error)
+	UpdateLocation(ctx context.Context, payload domain.Location) (err error)
+	DeleteLocation(ctx context.Context, id int) (err error)
+}
