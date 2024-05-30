@@ -37,9 +37,8 @@ func VerifyToken(c *fiber.Ctx) error {
 	}
 
 	claims := token.Claims.(jwt.MapClaims)
-	c.Locals("email", claims["email"])
-	c.Locals("username", claims["username"])
-	c.Locals("image", claims["image"])
+	c.Locals("name", claims["name"])
+	c.Locals("employee_code", claims["employee_code"])
 
 	return c.Next()
 }

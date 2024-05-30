@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	"api.kalbe.crm/apps/models"
 )
@@ -46,9 +47,9 @@ type IDatabaseRepositories interface {
 	/*
 		Attandance
 	*/
-	// GetAllAttandance(ctx context.Context, startDate time.Time, endDate time.Time) (resp []models.Attandance, err error)
-	// GetAttandance(ctx context.Context, id int) (resp models.Attandance, err error)
-	// CreateAttandance(ctx context.Context, payload models.Attandance) (err error)
-	// UpdateAttandance(ctx context.Context, selectedField []string, payload models.Attandance) (err error)
-	// DeleteAttandance(ctx context.Context, id int) (err error)
+	GetAllAttandance(ctx context.Context, startDate time.Time, endDate time.Time) (resp []models.Attandance, err error)
+	GetAttandance(ctx context.Context, id int) (resp models.Attandance, err error)
+	CreateAttandance(ctx context.Context, payload models.Attandance) (err error)
+	UpdateAttandance(ctx context.Context, selectedField []string, payload models.Attandance) (err error)
+	DeleteAttandance(ctx context.Context, id int) (err error)
 }

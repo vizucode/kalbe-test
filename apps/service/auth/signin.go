@@ -35,11 +35,12 @@ func (auth *auth) SignIn(ctx context.Context, payload domain.AuthRequest) (token
 		}
 
 		tokenizer := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"employee_code": payload.EmployeeCode,
+			"employee_code": employeeModel.EmployeeCode,
+			"name":          employeeModel.EmployeeName,
 			"exp":           time.Now().Add(time.Hour * 24).Unix(),
 		})
 
-		secretKey := []byte(viper.NewViper().GetString("SECRET_JWT_KEY"))
+		secretKey := []byte(viper.NewViper().GetString("JWT_SECRET_KEY"))
 		token, err := tokenizer.SignedString(secretKey)
 		if err != nil {
 			log.Println(err)

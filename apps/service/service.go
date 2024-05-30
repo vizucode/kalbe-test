@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"api.kalbe.crm/apps/domain"
 )
@@ -40,4 +41,11 @@ type IEmployee interface {
 	CreateEmployee(ctx context.Context, payload domain.Employee) (err error)
 	UpdateEmployee(ctx context.Context, payload domain.Employee) (err error)
 	DeleteEmployee(ctx context.Context, employeeCode string) (err error)
+}
+
+type IAttandance interface {
+	CheckIn(ctx context.Context, payload domain.Attandance) (err error)
+	CheckOut(ctx context.Context, payload domain.Attandance) (err error)
+	GetAllAttandance(ctx context.Context, startDate time.Time, endDate time.Time) (resp []domain.Attandance, err error)
+	GetRowAttandance(ctx context.Context, id int) (resp domain.Attandance, err error)
 }
