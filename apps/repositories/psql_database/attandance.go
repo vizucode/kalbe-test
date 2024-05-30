@@ -33,7 +33,7 @@ func (psql *psql) GetAllAttandance(ctx context.Context, startDate time.Time, end
 }
 
 func (psql *psql) GetAttandance(ctx context.Context, id int) (resp models.Attandance, err error) {
-	if tx := psql.db.Where("id = ?", id).Preload("Employee.Position.Departement").Preload("Location").First(&resp); tx.Error != nil {
+	if tx := psql.db.Where("id = ?", id).Preload("Employee.Position").Preload("Employee.Departement").Preload("Location").First(&resp); tx.Error != nil {
 		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
 			return resp, fiber.NewError(fiber.StatusNotFound, fiber.ErrNotFound.Message)
 		}

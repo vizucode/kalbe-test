@@ -12,7 +12,7 @@ import (
 )
 
 func (psql *psql) GetAllEmployee(ctx context.Context) (resp []models.Employee, err error) {
-	if tx := psql.db.Model(&models.Employee{}).Find(&resp); tx.Error != nil {
+	if tx := psql.db.Model(&models.Employee{}).Preload("Position").Preload("Departement").Find(&resp); tx.Error != nil {
 		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
 			return resp, fiber.NewError(http.StatusNotFound, fiber.ErrNotFound.Message)
 		}
@@ -23,7 +23,7 @@ func (psql *psql) GetAllEmployee(ctx context.Context) (resp []models.Employee, e
 	return resp, nil
 }
 func (psql *psql) GetEmployee(ctx context.Context, employeeCode string) (resp models.Employee, err error) {
-	if tx := psql.db.Model(&models.Employee{}).Where("employee_code = ?", employeeCode).First(&resp); tx.Error != nil {
+	if tx := psql.db.Model(&models.Employee{}).Where("employee_code = ?", employeeCode).Preload("Position").Preload("Departement").First(&resp); tx.Error != nil {
 		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
 			return resp, fiber.NewError(http.StatusNotFound, fiber.ErrNotFound.Message)
 		}
