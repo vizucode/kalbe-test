@@ -9,6 +9,7 @@ import (
 	"api.kalbe.crm/apps/router/rest"
 	"api.kalbe.crm/apps/service/auth"
 	"api.kalbe.crm/apps/service/departement"
+	"api.kalbe.crm/apps/service/position"
 	"api.kalbe.crm/config/dbconnection"
 	errorHandler "api.kalbe.crm/config/error_handler"
 	"api.kalbe.crm/config/hisentry"
@@ -20,10 +21,10 @@ import (
 )
 
 func main() {
-
 	app := fiber.New(fiber.Config{
 		ErrorHandler: errorHandler.ErrorHandler,
 	})
+
 	app.Use(recover.New())
 
 	env := viper.NewViper()
@@ -39,6 +40,7 @@ func main() {
 	rest.NewRest(
 		auth.NewAuth(psql, validator),
 		departement.NewDepartement(psql, validator),
+		position.NewPosition(psql, validator),
 	).RegisterRoute(app)
 
 	err := app.Listen(env.GetString("APP_PORT"))

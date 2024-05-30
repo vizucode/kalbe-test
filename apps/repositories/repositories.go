@@ -19,11 +19,11 @@ type IDatabaseRepositories interface {
 	/*
 		Position
 	*/
-	// GetAllPosition(ctx context.Context) (resp []models.Position, err error)
-	// GetPosition(ctx context.Context, id int) (resp models.Position, err error)
-	// CreatePosition(ctx context.Context, payload models.Position) (err error)
-	// UpdatePosition(ctx context.Context, selectedField []string, payload models.Position) (err error)
-	// DeletePosition(ctx context.Context, id int) (err error)
+	GetAllPosition(ctx context.Context) (resp []models.Position, err error)
+	GetPosition(ctx context.Context, id int) (resp models.Position, err error)
+	CreatePosition(ctx context.Context, payload models.Position) (err error)
+	UpdatePosition(ctx context.Context, selectedField []string, payload models.Position) (err error)
+	DeletePosition(ctx context.Context, id int) (err error)
 
 	/*
 		Location
