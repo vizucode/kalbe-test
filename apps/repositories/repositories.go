@@ -40,8 +40,8 @@ type IDatabaseRepositories interface {
 	GetAllEmployee(ctx context.Context) (resp []models.Employee, err error)
 	GetEmployee(ctx context.Context, employeeCode string) (resp models.Employee, err error)
 	CreateEmployee(ctx context.Context, payload models.Employee) (err error)
-	UpdateEmployee(ctx context.Context, selectedString []string, payload models.Location) (err error)
-	DeleteEmployee(ctx context.Context, id int) (err error)
+	UpdateEmployee(ctx context.Context, selectedString []string, payload models.Employee) (err error)
+	DeleteEmployee(ctx context.Context, employeeCode string) (err error)
 
 	/*
 		Attandance

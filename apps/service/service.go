@@ -33,3 +33,11 @@ type ILocation interface {
 	UpdateLocation(ctx context.Context, payload domain.Location) (err error)
 	DeleteLocation(ctx context.Context, id int) (err error)
 }
+
+type IEmployee interface {
+	GetAllEmployee(ctx context.Context) (resp []domain.Employee, err error)
+	GetRowEmployee(ctx context.Context, employeeCode string) (resp domain.Employee, err error)
+	CreateEmployee(ctx context.Context, payload domain.Employee) (err error)
+	UpdateEmployee(ctx context.Context, payload domain.Employee) (err error)
+	DeleteEmployee(ctx context.Context, employeeCode string) (err error)
+}

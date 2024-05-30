@@ -9,6 +9,7 @@ import (
 	"api.kalbe.crm/apps/router/rest"
 	"api.kalbe.crm/apps/service/auth"
 	"api.kalbe.crm/apps/service/departement"
+	"api.kalbe.crm/apps/service/employee"
 	"api.kalbe.crm/apps/service/location"
 	"api.kalbe.crm/apps/service/position"
 	"api.kalbe.crm/config/dbconnection"
@@ -43,6 +44,7 @@ func main() {
 		departement.NewDepartement(psql, validator),
 		position.NewPosition(psql, validator),
 		location.NewLocation(psql, validator),
+		employee.NewEmployee(psql, validator),
 	).RegisterRoute(app)
 
 	err := app.Listen(env.GetString("APP_PORT"))

@@ -2,6 +2,7 @@ package timestamp
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -16,4 +17,15 @@ func GenerateExpired(expiredDuration time.Duration) int64 {
 	}
 
 	return time.Now().In(location).Add(expiredDuration).Unix()
+}
+
+func GenerateCode(runningNumber int) string {
+	now := time.Now()
+	yymm := now.Format("0601")
+
+	runningNumberStr := fmt.Sprintf("%04d", runningNumber)
+
+	result := yymm + runningNumberStr
+
+	return result
 }
