@@ -8,6 +8,7 @@ import (
 	psqldatabase "api.kalbe.crm/apps/repositories/psql_database"
 	"api.kalbe.crm/apps/router/rest"
 	"api.kalbe.crm/apps/service/auth"
+	"api.kalbe.crm/apps/service/departement"
 	"api.kalbe.crm/config/dbconnection"
 	errorHandler "api.kalbe.crm/config/error_handler"
 	"api.kalbe.crm/config/hisentry"
@@ -37,6 +38,7 @@ func main() {
 
 	rest.NewRest(
 		auth.NewAuth(psql, validator),
+		departement.NewDepartement(psql, validator),
 	).RegisterRoute(app)
 
 	err := app.Listen(env.GetString("APP_PORT"))

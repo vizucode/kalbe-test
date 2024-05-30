@@ -2,6 +2,7 @@ package psqldatabase
 
 import (
 	"context"
+	"log"
 	"net/http"
 
 	"api.kalbe.crm/apps/models"
@@ -10,7 +11,8 @@ import (
 
 func (psql *psql) GetAllDepartement(ctx context.Context) (resp []models.Departement, err error) {
 	if tx := psql.db.Model(&models.Departement{}).Find(&resp); tx.Error != nil {
-		return resp, fiber.NewError(http.StatusInternalServerError, tx.Error.Error())
+		log.Println(tx.Error)
+		return resp, fiber.NewError(http.StatusInternalServerError, fiber.ErrInternalServerError.Message)
 	}
 	return resp, nil
 }
@@ -18,7 +20,8 @@ func (psql *psql) GetAllDepartement(ctx context.Context) (resp []models.Departem
 func (psql *psql) GetDepartement(ctx context.Context, id int) (resp models.Departement, err error) {
 
 	if tx := psql.db.Model(&models.Departement{}).Where("id = ?", id).First(&resp); tx.Error != nil {
-		return resp, fiber.NewError(http.StatusInternalServerError, tx.Error.Error())
+		log.Println(tx.Error)
+		return resp, fiber.NewError(http.StatusInternalServerError, fiber.ErrInternalServerError.Message)
 	}
 
 	return resp, err
@@ -27,7 +30,8 @@ func (psql *psql) GetDepartement(ctx context.Context, id int) (resp models.Depar
 func (psql *psql) CreateDepartement(ctx context.Context, payload models.Departement) (err error) {
 
 	if tx := psql.db.Model(&models.Departement{}).Create(&payload); tx.Error != nil {
-		return fiber.NewError(http.StatusInternalServerError, tx.Error.Error())
+		log.Println(tx.Error)
+		return fiber.NewError(http.StatusInternalServerError, fiber.ErrInternalServerError.Message)
 	}
 
 	return nil
@@ -35,8 +39,9 @@ func (psql *psql) CreateDepartement(ctx context.Context, payload models.Departem
 
 func (psql *psql) UpdateDepartement(ctx context.Context, selectedField []string, payload models.Departement) (err error) {
 
-	if tx := psql.db.Model(&models.Departement{}).Select(selectedField).Updates(&payload); tx.Error != nil {
-		return fiber.NewError(http.StatusInternalServerError, tx.Error.Error())
+	if tx := psql.db.Model(&models.Departement{}).Select(selectedField).Where("id = ?", payload.ID).Updates(&payload); tx.Error != nil {
+		log.Println(tx.Error)
+		return fiber.NewError(http.StatusInternalServerError, fiber.ErrInternalServerError.Message)
 	}
 
 	return nil
@@ -45,7 +50,8 @@ func (psql *psql) UpdateDepartement(ctx context.Context, selectedField []string,
 func (psql *psql) DeleteDepartement(ctx context.Context, id int) (err error) {
 
 	if tx := psql.db.Model(&models.Departement{}).Delete(&models.Departement{}, id); tx.Error != nil {
-		return fiber.NewError(http.StatusInternalServerError, tx.Error.Error())
+		log.Println(tx.Error)
+		return fiber.NewError(http.StatusInternalServerError, fiber.ErrInternalServerError.Message)
 	}
 
 	return nil
