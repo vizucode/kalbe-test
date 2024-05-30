@@ -3,6 +3,7 @@ package psqldatabase
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"time"
 
@@ -23,7 +24,7 @@ func (psql *psql) GetAllAttandance(ctx context.Context, startDate time.Time, end
 		tx = tx.Where("created_at <= ?", endDate)
 	}
 
-	tx = tx.Preload("Employee.Position.Departement").Preload("Location").Find(&resp)
+	tx = tx.Preload("Employee.Position").Preload("Employee.Departement").Preload("Location").Find(&resp)
 	if tx.Error != nil {
 		log.Println(tx.Error)
 		return resp, fiber.NewError(fiber.StatusInternalServerError, fiber.ErrInternalServerError.Message)
@@ -54,6 +55,7 @@ func (psql *psql) CreateAttandance(ctx context.Context, payload models.Attandanc
 }
 
 func (psql *psql) UpdateAttandance(ctx context.Context, selectedField []string, payload models.Attandance) (err error) {
+	fmt.Println(payload.UpdatedBy)
 	if tx := psql.db.Model(&models.Attandance{}).Select(selectedField).Where("id = ?", payload.ID).Updates(&payload); tx.Error != nil {
 		log.Println(tx.Error)
 		return fiber.NewError(fiber.StatusInternalServerError, fiber.ErrInternalServerError.Message)

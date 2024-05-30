@@ -19,12 +19,6 @@ func (s *attandance) CheckOut(ctx context.Context, payload domain.Attandance) (e
 		return fiber.NewError(fiber.StatusBadRequest, fiber.ErrBadRequest.Message)
 	}
 
-	employeeModel, err := s.db.GetEmployee(ctx, payload.EmployeeCode)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
 	// check if already absent this day
 	now := time.Now()
 
@@ -42,7 +36,7 @@ func (s *attandance) CheckOut(ctx context.Context, payload domain.Attandance) (e
 
 	err = s.db.UpdateAttandance(ctx, []string{"updated_by", "absent_out"}, models.Attandance{
 		Model:     gorm.Model{ID: uint(payload.Id)},
-		UpdatedBy: employeeModel.UpdatedBy,
+		UpdatedBy: payload.UpdatedBy,
 		AbsentOut: now,
 	})
 	if err != nil {

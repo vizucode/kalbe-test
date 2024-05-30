@@ -24,6 +24,7 @@ func (s *attandance) GetRowAttandance(ctx context.Context, id int) (resp domain.
 		DepartementName: attandance.Employee.Departement.DepartementName,
 		LocationName:    attandance.Location.LocationName,
 		CreatedBy:       attandance.CreatedBy,
+		UpdatedBy:       attandance.UpdatedBy,
 		AbsentIn:        attandance.AbsentIn,
 		AbsentOut:       attandance.AbsentOut,
 		CreatedAt:       attandance.CreatedAt,

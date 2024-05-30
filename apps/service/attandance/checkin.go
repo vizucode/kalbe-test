@@ -40,7 +40,7 @@ func (s *attandance) CheckIn(ctx context.Context, payload domain.Attandance) (er
 	err = s.db.CreateAttandance(ctx, models.Attandance{
 		LocationId: payload.LocationId,
 		EmployeeId: int(employeeModel.ID),
-		CreatedBy:  employeeModel.CreatedBy,
+		CreatedBy:  payload.CreatedBy,
 		AbsentIn:   now,
 	})
 	if err != nil {

@@ -50,15 +50,23 @@ func (s *rest) CheckOut(c *fiber.Ctx) error {
 		employeeCode = ""
 	}
 
+	ids := c.Params("id")
+	id, err := strconv.Atoi(ids)
+	if err != nil {
+		log.Println(err)
+		return fiber.NewError(fiber.StatusBadRequest, fiber.ErrBadRequest.Message)
+	}
+
 	var payload domain.Attandance
 	if err := c.BodyParser(&payload); err != nil {
 		log.Println(err)
 		return fiber.NewError(fiber.StatusBadRequest, fiber.ErrBadRequest.Message)
 	}
-	payload.CreatedBy = name
+	payload.UpdatedBy = name
 	payload.EmployeeCode = employeeCode
+	payload.Id = id
 
-	err := s.attandace.CheckOut(c.Context(), payload)
+	err = s.attandace.CheckOut(c.Context(), payload)
 	if err != nil {
 		log.Println(err)
 		return fiber.NewError(fiber.StatusInternalServerError, fiber.ErrInternalServerError.Message)
